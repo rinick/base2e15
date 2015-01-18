@@ -4,12 +4,11 @@ binary-to-text encoding schemes that represent binary data in an unicode string 
 
 #### Example ####
 
-Plain Text (20chars):<br>
- `Base2e15 is awesome!` <br>
-Base2e15 (11chars):<br>
- `噺둽宖衝幍嬖瘌켉漁닽奪` <br>
-Base64 (27+1chars):<br>
- `QmFzZTJlMTUgaXMgYXdlc29tZSE=` <br>
+| Encoding | Data | chararacters |
+|:-:|:-:|:-:|
+| Plain text | Base2e15 is awesome! | 20 |
+| **Base2e15** | **噺둽宖衝幍嬖瘌켉漁닽奪** | **11** |
+| Base64 | QmFzZTJlMTUgaXMgYXdlc29tZSE= | 27+1 |
  
 ## mapping table
 **15 bits mapping**<br>
@@ -43,5 +42,6 @@ main() {
 | bits per UTF16 byte | **7.5 (15/2)** | 3 (6/2) |
 
 ## Why not base2e16 ?
-Unicode range `CJK Unified Ideographs Extension B` contains 42711 characters (U+20000 ~ U+2A6D6), together with the characters used by base2e15, it is possible to encode 16 bits in each character.<br>
-But the font support for `CJK Unified Ideographs Extension B` is missing in most mobile devices and using this code range will also readue the bits capacity in UTF8 and UTF16 encoding, since those characters require one more byte in UTF8 and 2 more bytes in UTF16.
+Unicode range `CJK Unified Ideographs Extension B` contains 42711 characters (U+20000 ~ U+2A6D6), together with the characters used by base2e15, there are more than 65536 usable characters to encode 16 bits in each character.
+
+However font support for `CJK Unified Ideographs Extension B` is missing in most mobile devices and using this code range will also readue the bits capacity in UTF8 and UTF16 encoding, since those characters require one more byte in UTF8 and 2 more bytes in UTF16.
