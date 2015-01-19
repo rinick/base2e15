@@ -22,26 +22,6 @@ binary-to-text encoding schemes that represent binary data in an unicode string 
 
 ## Usage
 
-A simple usage example in c:
-```c
-#include "base2e15.h"
-int main(int argc, char *argv[])
-{
-    char c[] = "Base2e15 is awesome!";
-    int len = strlen(c);
-
-    int encodeLen = base2e15_encode_length(len) + 1;
-    wchar_t* encoded = malloc(encodeLen * sizeof(wchar_t));
-    base2e15_encode(c, len, encoded, encodeLen);
-    
-    // int buffLen = base2e15_decode_length(encoded, -1);
-    int buffLen = 256; 
-    char* decoded = malloc(buffLen * sizeof(char));
-    int decodeLen = base2e15_decode(encoded, -1, decoded, buffLen);
-    // if decodeLen is not big enough, decodeLen will be -1
-}
-```
-
 A simple usage example in dart:
 ```dart
 import 'dart:convert';
@@ -53,6 +33,28 @@ main() {
   String decoded = UTF8.decode(Base2e15.decode(encoded));
 }
 ```
+
+example in c:
+```c
+#include <stdio.h>
+#include "base2e15.h"
+int main(int argc, char *argv[])
+{
+    char c[] = "Base2e15 is awesome!";
+    int len = strlen(c);
+
+    int encodeLen = base2e15_encode_length(len) + 1; \\ one more char for the \0
+    wchar_t* encoded = malloc(encodeLen * sizeof(wchar_t));
+    base2e15_encode(c, len, encoded, encodeLen);
+    
+    // int buffLen = base2e15_decode_length(encoded, -1);
+    int buffLen = 256; 
+    char* decoded = malloc(buffLen * sizeof(char));
+    int decodeLen = base2e15_decode(encoded, -1, decoded, buffLen);
+    // if buffLen is not big enough, decodeLen will be -1
+}
+```
+
 ## Compare
 
 | Compare | Base2e15 |  Base64 |
