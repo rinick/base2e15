@@ -19,24 +19,26 @@ bool testEqual(Object a, Object b, String testName) {
 main() {
   String msg = 'Base2e15 is awesome!';
   String encoded = Base2e15.encode(UTF8.encode(msg));
-  testEqual(encoded, '噺둽宖衝幍嬖瘌켉漁닽奪', 'Encoding Test');
+  testEqual(encoded, '嗺둽嬖蟝巍媖疌켉溁닽壪', 'Encoding Test');
   String decoded = UTF8.decode(Base2e15.decode(encoded));
   testEqual(decoded, msg, 'Decoding Test');
-  String encoded2 = '~噺둽 宖衝幍嬖123瘌켉漁닽奪';
+  String encoded2 = '~嗺둽嬖蟝巍媖疌123켉溁닽壪';
   String decoded2 = UTF8.decode(Base2e15.decode(encoded2));
   testEqual(decoded2, msg, 'Malformed Decoding Test');
 
 //  Random rng = new Random();
 //  List bytes = new List(100);
 //  for (int i = 0; i < 10000; ++i) {
-//    for (int j = 0; j < 100; ++j) {
+//    int k = 50 + rng.nextInt(50);
+//    for (int j = 0; j < k; ++j) {
 //      bytes[j] = rng.nextInt(256);
 //    }
-//    String encoded = Base2e15.encode(bytes);
+//    String encoded = Base2e15.encode(bytes.sublist(0,k));
 //    List newbytes = Base2e15.decode(encoded);
-//    for (int j = 0; j < 100; ++j) {
+//    for (int j = 0; j < k; ++j) {
 //      if (bytes[j] != newbytes[j]) {
 //        print('Failed:$bytes');
+//        print('      :$newbytes');
 //        break;
 //      }
 //    }

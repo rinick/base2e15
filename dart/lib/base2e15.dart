@@ -3,11 +3,11 @@
 
 /// The base2e15 library.
 /// Map 15 bits to unicode
-/// 0x0000 ~ 0x18B5 -> U+3500 ~ U+4DB5   CJK Unified Ideographs Extension A
-/// 0x18B6 ~ 0x545B -> U+4E00 ~ U+89A5   CJK Unified Ideographs
+/// 0x0000 ~ 0x1935 -> U+3480 ~ U+4DB5   CJK Unified Ideographs Extension A
+/// 0x1936 ~ 0x545B -> U+4E00 ~ U+8925   CJK Unified Ideographs
 /// 0x545C ~ 0x7FFF -> U+AC00 ~ U+D7A3   Hangul Syllables
-/// 8 bits special case, only used by last character
-///  0x00  ~  0xFF  -> U+3400 ~ U+34FF   CJK Unified Ideographs Extension A
+/// 7 bits special case, only used by last character
+///  0x00  ~  0x7F  -> U+3400 ~ U+347F   CJK Unified Ideographs Extension A
 library base2e15;
 import 'dart:typed_data';
 class Base2e15 {
@@ -45,10 +45,10 @@ class Base2e15 {
         bn -= 8;
       } else {
         bv = ((bv << bn) | (byte >> (8 - bn))) & 0x7FFF;
-        if (bv < 0x18B6) {
-          out[pos++] = bv + 0x3500;
+        if (bv < 0x1936) {
+          out[pos++] = bv + 0x3480;
         } else if (bv < 0x545C) {
-          out[pos++] = bv + 0x354A;
+          out[pos++] = bv + 0x34CA;
         } else {
           out[pos++] = bv + 0x57A4;
         }
@@ -57,14 +57,14 @@ class Base2e15 {
       }
     }
     if (bn != 15) {
-      if (bn > 6) { // 8 bits or less is needed
-        out[pos++] = ((bv << (bn - 7)) & 0xFF) + 0x3400;
+      if (bn > 7) { // need 8 bits or more, so has 7 bits or less
+        out[pos++] = ((bv << (bn - 8)) & 0x7F) + 0x3400;
       } else {
         bv = (bv << bn) & 0x7FFF;
-        if (bv < 0x18B6) {
-          out[pos++] = bv + 0x3500;
+        if (bv < 0x1936) {
+          out[pos++] = bv + 0x3480;
         } else if (bv < 0x545C) {
-          out[pos++] = bv + 0x354A;
+          out[pos++] = bv + 0x34CA;
         } else {
           out[pos++] = bv + 0x57A4;
         }
@@ -84,17 +84,17 @@ class Base2e15 {
       if (code > 0x33FF && code < 0xD7A4) {
         if (code > 0xABFF) {
           cv = code - 0x57A4;
-        } else if (code > 0x89A5) {
+        } else if (code > 0x8925) {
           continue; // invalid range
         } else if (code > 0x4DFF) {
-          cv = code - 0x354A;
+          cv = code - 0x34CA;
         } else if (code > 0x4DB5) {
           continue; // invalid range
-        } else if (code > 0x34FF) {
-          cv = code - 0x3500;
+        } else if (code > 0x347F) {
+          cv = code - 0x3480;
         } else {
           cv = code - 0x3400;
-          out[pos++] = (bv << bn) | (cv >> (8 - bn));
+          out[pos++] = (bv << bn) | (cv >> (7 - bn));
           break; // last 8 bit data received, break
         }
         out[pos++] = (bv << bn) | (cv >> (15 - bn));

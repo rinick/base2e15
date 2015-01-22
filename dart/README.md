@@ -7,21 +7,20 @@ binary-to-text encoding schemes that represent binary data in an unicode string 
 | Encoding | Data | chararacters |
 |:-:|:-:|:-:|
 | Plain text | Base2e15 is awesome! | 20 |
-| **Base2e15** | **噺둽宖衝幍嬖瘌켉漁닽奪** | **11** |
+| **Base2e15** | **嗺둽嬖蟝巍媖疌켉溁닽壪** | **11** |
 | Base64 | QmFzZTJlMTUgaXMgYXdlc29tZSE= | 27+1 |
  
 ## Mapping table
-Every character represent 15 bits of data, except the last character 8 bits or 15 bits
+Every character represent 15 bits of data, except the last character 7 bits or 15 bits
 
 | Binary | Unicode | Unicode Range Name |
 |:-:|:-:|:-:|
 | **15 bits mapping** | | |
-| 0x0000 ~ 0x18B5 | U+3500 ~ U+4DB5 | CJK Unified Ideographs Extension A |
-| 0x18B6 ~ 0x545B | U+4E00 ~ U+89A5 | CJK Unified Ideographs |
+| 0x0000 ~ 0x1935 | U+3480 ~ U+4DB5 | CJK Unified Ideographs Extension A |
+| 0x1936 ~ 0x545B | U+4E00 ~ U+8925 | CJK Unified Ideographs |
 | 0x545C ~ 0x7FFF | U+AC00 ~ U+D7A3 | Hangul Syllables |
-| **8 bits mapping** | | |
-| 0x00   ~ 0xFF | U+3400 ~ U+34FF | CJK Unified Ideographs Extension A |
-
+| **7 bits mapping** | | |
+| 0x00   ~ 0x7F | U+3400 ~ U+347F | CJK Unified Ideographs Extension A |
 
 ## Usage
 

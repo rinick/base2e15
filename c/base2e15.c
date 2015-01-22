@@ -31,10 +31,10 @@ int base2e15_encode(const void* data, int len, wchar_t* out, int outlen) {
         bn -= 8;
       } else {
         bv = ((bv << bn) | (*p >> (8 - bn))) & 0x7FFF;
-        if (bv < 0x18B6) {
-          *(pOut++) = bv + 0x3500;
+        if (bv < 0x1936) {
+          *(pOut++) = bv + 0x3480;
         } else if (bv < 0x545C) {
-          *(pOut++) = bv + 0x354A;
+          *(pOut++) = bv + 0x34CA;
         } else {
           *(pOut++) = bv + 0x57A4;
         }
@@ -43,14 +43,14 @@ int base2e15_encode(const void* data, int len, wchar_t* out, int outlen) {
       }
     }
     if (bn != 15) {
-      if (bn > 6) {
-        *(pOut++) = ((bv << (bn - 7)) & 0xFF) + 0x3400;
+      if (bn > 7) {
+        *(pOut++) = ((bv << (bn - 8)) & 0xFF) + 0x3400;
       } else {
         bv = (bv << bn) & 0x7FFF;
-        if (bv < 0x18B6) {
-          *(pOut++) = bv + 0x3500;
+        if (bv < 0x1936) {
+          *(pOut++) = bv + 0x3480;
         } else if (bv < 0x545C) {
-          *(pOut++) = bv + 0x354A;
+          *(pOut++) = bv + 0x34CA;
         } else {
           *(pOut++) = bv + 0x57A4;
         }
@@ -75,28 +75,24 @@ int base2e15_encode_length(int len) {
  */
 int base2e15_decode_length(const wchar_t* data, int len) {
     int count = 0;
-
     int bn = 8; // bit needed
     const wchar_t* dataEnd = data + len;
     const wchar_t* code;
-    for (code = data; len > -1 && code < dataEnd; ++code) {
+    for (code = data; len == -1 || code < dataEnd; ++code) {
       if (*code == 0) {
         break;
       }
-      if (*code > 0x33FF) {
-        if (*code < 0x3500) {
-          ++count;
-          break; // 8 bit data received, break
-        }
-        if (*code < 0x4DB6) {
-        } else if (*code < 0x4E00) {
+      if (*code > 0x33FF && *code < 0xD7A4) {
+        if (*code > 0xABFF) {
+        } else if (*code > 0x8925) {
           continue; // invalid range
-        } else if (*code < 0x89A6) {
-        } else if (*code < 0xAC00) {
+        } else if (*code > 0x4DFF) {
+        } else if (*code > 0x4DB5) {
           continue; // invalid range
-        } else if (*code < 0xD7A4) {
+        } else if (*code > 0x347F) {
         } else {
-          continue; // invalid range
+          ++count;
+          break; // last 7 bit data received, break
         }
         ++count;
 
@@ -130,27 +126,24 @@ int base2e15_decode(const wchar_t* data, int len, void* out, int outlen) {
       if (*code == 0) {
         break;
       }
-      if (*code > 0x33FF) {
+      if (*code > 0x33FF && *code < 0xD7A4) {
+        if (*code > 0xABFF) {
+          cv = *code - 0x57A4;
+        } else if (*code > 0x8925) {
+          continue; // invalid range
+        } else if (*code > 0x4DFF) {
+          cv = *code - 0x34CA;
+        } else if (*code > 0x4DB5) {
+          continue; // invalid range
+        } else if (*code > 0x347F) {
+          cv = *code - 0x3480;
+        } else {
+          cv = *code - 0x3400;
+          *(output++) = (bv << bn) | (cv >> (7 - bn));
+          break; // last 7 bit data received, break
+        }
         if (output >= outputEnd) {
             return -1;
-        }
-        if (*code < 0x3500) {
-          cv = *code - 0x3400;
-          *(output++) = (bv << bn) | (cv >> (8 - bn));
-          break; // 8 bit data received, break
-        }
-        if (*code < 0x4DB6) {
-          cv = *code - 0x3500;
-        } else if (*code < 0x4E00) {
-          continue; // invalid range
-        } else if (*code < 0x89A6) {
-          cv = *code - 0x354A;
-        } else if (*code < 0xAC00) {
-          continue; // invalid range
-        } else if (*code < 0xD7A4) {
-          cv = *code - 0x57A4;
-        } else {
-          continue; // invalid range
         }
         *(output++) = (bv << bn) | (cv >> (15 - bn));
         bv = cv;
