@@ -1,6 +1,6 @@
 # base2e15
 
-binary-to-text encoding schemes that represent binary data in an unicode string format, each unicode character represent 15 bits of binary data
+binary-to-text encoding scheme that represents binary data in an unicode string format. Each unicode character represents 15 bits of binary data.
 
 #### Example ####
 
@@ -11,7 +11,8 @@ binary-to-text encoding schemes that represent binary data in an unicode string 
 | Base64 | QmFzZTJlMTUgaXMgYXdlc29tZSE= | 27+1 |
  
 ## Mapping table
-Every character represent 15 bits of data, except the last character 7 bits or 15 bits
+
+Every character represents 15 bits of data, except the last character, which is 7 or 15 bits.
 
 | Binary | Unicode | Unicode Range Name |
 |:-:|:-:|:-:|
@@ -66,7 +67,8 @@ int main(int argc, char *argv[])
 | bits per UTF8 byte | 5 (15/3) | **6 (6/1)** |
 | bits per UTF16 byte | **7.5 (15/2)** | 3 (6/2) |
 
-## Why not base2e16 ?
-Unicode range `CJK Unified Ideographs Extension B` contains 42711 characters (U+20000 ~ U+2A6D6), together with the characters used by base2e15, there are more than 65536 usable characters to encode 16 bits in each character.
+## Why not base2e16?
 
-However, font support for `CJK Unified Ideographs Extension B` is missing in most mobile devices and using this code range will also readue the bits capacity in UTF8 and UTF16 encoding, since those characters require one more byte in UTF8 and 2 more bytes in UTF16.
+The unicode range `CJK Unified Ideographs Extension B` contains 42711 characters (U+20000 ~ U+2A6D6), together with the characters used by base2e15, there are more than 65536 usable characters to encode 16 bits in each character.
+
+However, font support for `CJK Unified Ideographs Extension B` is missing in most mobile devices and using this code range will also reduce the bits capacity in UTF8 and UTF16 encoding, since those characters require one more byte in UTF8 and 2 more bytes in UTF16.
