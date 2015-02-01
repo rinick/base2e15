@@ -13,7 +13,7 @@ namespace Base2e15
             int bn = 15; // bit needed
             int bv = 0; // bit value
             int outLen = (byts.Length * 8 + 14) / 15;
-            int[] output = new int[outLen];
+            char[] output = new char[outLen];
             int pos = 0;
             for (int i = 0; i < byts.Length; ++i)
             {
@@ -28,15 +28,15 @@ namespace Base2e15
                     bv = ((bv << bn) | (byt >> (8 - bn))) & 0x7FFF;
                     if (bv < 0x1936)
                     {
-                        output[pos++] = bv + 0x3480;
+                        output[pos++] = (char)(bv + 0x3480);
                     }
                     else if (bv < 0x545C)
                     {
-                        output[pos++] = bv + 0x34CA;
+                        output[pos++] = (char)(bv + 0x34CA);
                     }
                     else
                     {
-                        output[pos++] = bv + 0x57A4;
+                        output[pos++] = (char)(bv + 0x57A4);
                     }
                     bv = byt;
                     bn += 7;
@@ -46,34 +46,26 @@ namespace Base2e15
             {
                 if (bn > 7)
                 { // need 8 bits or more, so has 7 bits or less
-                    output[pos++] = ((bv << (bn - 8)) & 0x7F) + 0x3400;
+                    output[pos++] = (char)(((bv << (bn - 8)) & 0x7F) + 0x3400);
                 }
                 else
                 {
                     bv = (bv << bn) & 0x7FFF;
                     if (bv < 0x1936)
                     {
-                        output[pos++] = bv + 0x3480;
+                        output[pos++] = (char)(bv + 0x3480);
                     }
                     else if (bv < 0x545C)
                     {
-                        output[pos++] = bv + 0x34CA;
+                        output[pos++] = (char)(bv + 0x34CA);
                     }
                     else
                     {
-                        output[pos++] = bv + 0x57A4;
+                        output[pos++] = (char)(bv + 0x57A4);
                     }
                 }
             }
-
-            byte[] outputBytes = new byte[output.Length * 2];
-            for (int i = 0; i < output.Length; i++)
-            {
-                int num = output[i];
-                outputBytes[i * 2] = Convert.ToByte(num & 0xFF);
-                outputBytes[i * 2 + 1] = Convert.ToByte(num >> 8);
-            }
-            return System.Text.Encoding.GetEncoding("utf-16").GetString(outputBytes);
+            return new String(output);
         }
 
         public static byte[] Decode(String input)
