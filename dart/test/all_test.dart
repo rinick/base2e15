@@ -18,12 +18,12 @@ bool testEqual(Object a, Object b, String testName) {
 }
 main() {
   String msg = 'Base2e15 is awesome!';
-  String encoded = Base2e15.encode(UTF8.encode(msg));
+  String encoded = Base2e15.encode(utf8.encode(msg));
   testEqual(encoded, '嗺둽嬖蟝巍媖疌켉溁닽壪', 'Encoding Test');
-  String decoded = UTF8.decode(Base2e15.decode(encoded));
+  String decoded = utf8.decode(Base2e15.decode(encoded));
   testEqual(decoded, msg, 'Decoding Test');
   String encoded2 = '~嗺둽嬖蟝巍媖疌123켉溁닽壪';
-  String decoded2 = UTF8.decode(Base2e15.decode(encoded2));
+  String decoded2 = utf8.decode(Base2e15.decode(encoded2));
   testEqual(decoded2, msg, 'Malformed Decoding Test');
 
 //  Random rng = new Random();
