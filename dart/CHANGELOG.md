@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- Dart 2 support
+
 ## 0.2.0
 
 - Mapping table change
