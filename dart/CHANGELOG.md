@@ -1,4 +1,7 @@
 # Changelog
+## 1.0.0
+
+- Null safety changes
 
 ## 0.3.0
 
@@ -7,10 +10,6 @@
 ## 0.2.0
 
 - Mapping table change
-
-## 1.0.0
-
-- Null safety changes
 
 ## 0.1.1
 
