@@ -9,13 +9,15 @@
 /// 7 bits special case, only used by last character
 ///  0x00  ~  0x7F  -> U+3400 ~ U+347F   CJK Unified Ideographs Extension A
 library base2e15;
-import 'dart:typed_data';
-class Base2e15 {
 
-  static String encode(List<int> bytes, [int lineSize = 0, String linePadding]) {
-    List<int> charCodes = encodeToCharCode(bytes);
+import 'dart:typed_data';
+
+class Base2e15 {
+  static String encode(List<int> bytes,
+      [int lineSize = 0, String? linePadding]) {
+    List<int?> charCodes = encodeToCharCode(bytes);
     if (lineSize <= 0) {
-      return new String.fromCharCodes(charCodes);
+      return new String.fromCharCodes(charCodes as Iterable<int>);
     }
     List rslt = [];
     int len = charCodes.length;
@@ -25,19 +27,21 @@ class Base2e15 {
         j = len;
       }
       if (linePadding != null) {
-        rslt.add('$linePadding${new String.fromCharCodes(charCodes.sublist(i, j))}');
+        rslt.add(
+            '$linePadding${new String.fromCharCodes(charCodes.sublist(i, j) as Iterable<int>)}');
       } else {
-        rslt.add(new String.fromCharCodes(charCodes.sublist(i, j)));
+        rslt.add(
+            new String.fromCharCodes(charCodes.sublist(i, j) as Iterable<int>));
       }
     }
     return rslt.join('\n');
   }
 
-  static List<int> encodeToCharCode(List<int> bytes) {
+  static List<int?> encodeToCharCode(List<int> bytes) {
     int bn = 15; // bit needed
     int bv = 0; // bit value
     int outLen = (bytes.length * 8 + 14) ~/ 15;
-    List<int> out = new List<int>(outLen);
+    List<int> out = new List<int>.filled(outLen, -1, growable: false);
     int pos = 0;
     for (int byte in bytes) {
       if (bn > 8) {
@@ -57,7 +61,8 @@ class Base2e15 {
       }
     }
     if (bn != 15) {
-      if (bn > 7) { // need 8 bits or more, so has 7 bits or less
+      if (bn > 7) {
+        // need 8 bits or more, so has 7 bits or less
         out[pos++] = ((bv << (bn - 8)) & 0x7F) + 0x3400;
       } else {
         bv = (bv << bn) & 0x7FFF;

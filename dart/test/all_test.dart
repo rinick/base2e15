@@ -16,6 +16,7 @@ bool testEqual(Object a, Object b, String testName) {
     return false;
   }
 }
+
 main() {
   String msg = 'Base2e15 is awesome!';
   String encoded = Base2e15.encode(utf8.encode(msg));
