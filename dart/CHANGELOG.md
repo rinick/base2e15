@@ -8,6 +8,10 @@
 
 - Mapping table change
 
+## 1.0.0
+
+- Null safety changes
+
 ## 0.1.1
 
 - Fix README.md
